@@ -56,4 +56,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //  dependencies jetpack Compose and DataStore/ProtoStore
+    implementation ("androidx.compose.ui:ui:1.7.6") // Check for latest version
+    implementation ("androidx.compose.material3:material3:1.3.1") // For Material3 UI components
+    implementation ("androidx.datastore:datastore-preferences:1.1.2") // For DataStore support
+    implementation ("androidx.datastore:datastore:1.1.2") // For ProtoStore (if needed)
+
 }
