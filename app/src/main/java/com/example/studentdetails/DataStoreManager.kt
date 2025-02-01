@@ -33,7 +33,7 @@ class DataStoreManager(private val context: Context) {
 
     // Get student ID from DataStore
     val getStudentId: Flow<String> = context.dataStore.data
-        .map { preferences -> preferences[studentIdKey] ?: "" }
+        .map { preferences -> preferences[studentIdKey] ?: "157" }
 
     // Get username from DataStore
     val getUserName: Flow<String> = context.dataStore.data

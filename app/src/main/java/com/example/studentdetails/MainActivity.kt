@@ -1,5 +1,6 @@
 package com.example.studentdetails
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,11 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.studentdetails.ui.theme.StudentDetailsTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
@@ -41,28 +42,22 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+@SuppressLint("SuspiciousIndentation")
 @Preview(showBackground = true)
 @Composable
 fun StudentDetailsScreen() {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
-    val studentId = remember { mutableStateOf(TextFieldValue()) }
+    val studentId = remember { mutableStateOf(TextFieldValue("157")) }
     val username = remember { mutableStateOf(TextFieldValue()) }
     val courseName = remember { mutableStateOf(TextFieldValue()) }
 
 
     val store = DataStoreManager(context)
-    val studentIdText = store.getStudentId.collectAsState(initial = "")
+    val studentIdText = store.getStudentId.collectAsState(initial = "157")
     val usernameText = store.getUserName.collectAsState(initial = "")
     val courseNameText = store.getCourseName.collectAsState(initial = "")
 
-
-    // Populate fields with DataStore data
-       LaunchedEffect(studentIdText.value, usernameText.value, courseNameText.value) {
-           studentId.value = TextFieldValue(studentIdText.value)
-           username.value = TextFieldValue(usernameText.value)
-           courseName.value = TextFieldValue(courseNameText.value)
-       }
         Column(
             modifier = Modifier
               .fillMaxSize()
@@ -105,7 +100,14 @@ fun StudentDetailsScreen() {
                     studentId.value = TextFieldValue(studentIdText.value)
                     username.value = TextFieldValue(usernameText.value)
                     courseName.value = TextFieldValue(courseNameText.value)
-                }, modifier = Modifier.weight(1f)) {
+                },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Cyan,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier.weight(1f)
+
+                ) {
                     Text("Load")
                 }
                 Button(onClick = {
@@ -117,7 +119,15 @@ fun StudentDetailsScreen() {
                             courseName.value.text
                         )
                     }
-                }, modifier = Modifier.weight(1f)) {
+
+                },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Green,
+                        contentColor = Color.Black
+                    ),
+
+                    modifier = Modifier.weight(1f)
+                ) {
                     Text("Store")
                 }
             }
@@ -129,15 +139,21 @@ fun StudentDetailsScreen() {
                     username.value = TextFieldValue("")
                     courseName.value = TextFieldValue("")
                 }
-            }, modifier = Modifier.fillMaxWidth()) {
+            },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.LightGray,
+                    contentColor = Color.Black
+                ),
+                modifier = Modifier.fillMaxWidth()) {
                 Text("Reset")
             }
-               //Text(text = usernameText.value)
-            // About Section
+
             Spacer(modifier = Modifier.height(32.dp))
             Text("Student Details:", style = MaterialTheme.typography.titleLarge)
             Text("Student Name: ${usernameText.value}")
+            Text("Student ID: ${studentIdText.value}")
             Text("Course Name: ${courseNameText.value}")
+
 
         }
     }
